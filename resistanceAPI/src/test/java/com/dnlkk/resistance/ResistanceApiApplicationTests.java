@@ -9,5 +9,4 @@ class ResistanceApiApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }

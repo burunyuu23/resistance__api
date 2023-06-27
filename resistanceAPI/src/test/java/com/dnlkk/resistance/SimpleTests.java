@@ -1,6 +1,7 @@
 package com.dnlkk.resistance;
 
 import com.dnlkk.resistance.exceptions.VertexNotFoundException;
+import com.dnlkk.resistance.objects.graph.Graph;
 import com.dnlkk.resistance.objects.graph.WeightedEdge;
 import com.dnlkk.resistance.objects.graph.WeightedGraph;
 import com.dnlkk.resistance.objects.graph.ResistorMatrixWeightedGraph;
@@ -10,6 +11,7 @@ import lombok.Getter;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -74,6 +76,15 @@ public class SimpleTests {
         }
 
         @Test
+        void testGraphCreateFromString() {
+            String input = "{0-1=[(R1:10)]};{1-2=[(R2:5), (R3:20)]};";
+
+            Graph<Resistor> graph = new ResistorMatrixWeightedGraph(input);
+
+            assertEquals(input, graph.toString());
+        }
+
+        @Test
         void testGraphAddNewEdge(){
             System.out.println(new Object() {}
                     .getClass()
@@ -86,7 +97,7 @@ public class SimpleTests {
             vertexCount++;
 
             new GraphBaseTest(this).testGraph(
-                    "{0-3=[(R1=1)]};"
+                    "{0-3=[(R1:1)]};"
             );
             System.out.println();
         }
@@ -107,7 +118,7 @@ public class SimpleTests {
             vertexCount++;
 
             new GraphBaseTest(this).testGraph(
-                    "{0-1=[(R1=1), (R2=2), (R3=3), (R4=4)]};{0-2=[(R5=5)]};{0-3=[(R6=6), (R7=7), (R8=8)]};"
+                    "{0-1=[(R1:1), (R2:2), (R3:3), (R4:4)]};{0-2=[(R5:5)]};{0-3=[(R6:6), (R7:7), (R8:8)]};"
             );
             System.out.println();
         }
@@ -125,10 +136,10 @@ public class SimpleTests {
             graph.addEdge(1,2,new Resistor("R3", 3));
             edgeCount+=3;
 
-            assertEquals("[(R1=1), (R2=2)]", graph.getWeight(0, 1).toString());
+            assertEquals("[(R1:1), (R2:2)]", graph.getWeight(0, 1).toString());
 
             new GraphBaseTest(this).testGraph(
-                    "{0-1=[(R1=1), (R2=2)]};{1-2=[(R3=3)]};"
+                    "{0-1=[(R1:1), (R2:2)]};{1-2=[(R3:3)]};"
             );
             System.out.println();
         }
@@ -148,18 +159,18 @@ public class SimpleTests {
 
             var ans = graph.getWeight(1, 2);
             System.out.println(ans);
-            assertEquals("[(R3=3)]", ans.toString());
+            assertEquals("[(R3:3)]", ans.toString());
 
             ans = graph.getWeight(0, 1);
             System.out.println(ans);
-            assertEquals("[(R1=1), (R2=2)]", graph.getWeight(0, 1).toString());
+            assertEquals("[(R1:1), (R2:2)]", graph.getWeight(0, 1).toString());
 
             graph.removeEdge(0, 1, new Resistor("R1", 1));
             edgeCount--;
 
             ans = graph.getWeight(0, 1);
             System.out.println(ans);
-            assertEquals("[(R1=2)]", graph.getWeight(0, 1).toString());
+            assertEquals("[(R1:2)]", graph.getWeight(0, 1).toString());
 
             graph.removeEdge(1,2,new Resistor("R2", 3));
             edgeCount--;
@@ -175,7 +186,7 @@ public class SimpleTests {
             }
 
             new GraphBaseTest(this).testGraph(
-                    "{0-1=[(R1=2)]};"
+                    "{0-1=[(R1:2)]};"
             );
             System.out.println();
         }
@@ -196,7 +207,7 @@ public class SimpleTests {
 
             var ans = graph.getWeight(0, 1);
             System.out.println(ans);
-            assertEquals("[(R1=1), (R2=2)]", ans.toString());
+            assertEquals("[(R1:1), (R2:2)]", ans.toString());
 
             graph.removeEdge(0, 1);
             edgeCount -= 2;
@@ -204,7 +215,7 @@ public class SimpleTests {
             try {
                 ans = graph.getWeight(0, 1);
                 System.out.println(ans);
-                assertEquals("[(R1=1), (R2=2)]", ans.toString());
+                assertEquals("[(R1:1), (R2:2)]", ans.toString());
             } catch (VertexNotFoundException e) {
                 System.err.println(e.getMessage());
             } catch (Exception e) {
@@ -212,7 +223,7 @@ public class SimpleTests {
             }
 
             new GraphBaseTest(this).testGraph(
-                    "{1-2=[(R1=3)]};"
+                    "{1-2=[(R1:3)]};"
             );
             System.out.println();
         }
@@ -233,10 +244,10 @@ public class SimpleTests {
             String graphInfo = graph.toString();
             System.out.println(graphInfo);
 
-            assertEquals("{0-1=[(R1=1), (R2=2)]};{1-2=[(R3=3)]};", graphInfo);
+            assertEquals("{0-1=[(R1:1), (R2:2)]};{1-2=[(R3:3)]};", graphInfo);
 
             new GraphBaseTest(this).testGraph(
-                    "{0-1=[(R1=1), (R2=2)]};{1-2=[(R3=3)]};"
+                    "{0-1=[(R1:1), (R2:2)]};{1-2=[(R3:3)]};"
             );
             System.out.println();
         }
@@ -259,7 +270,7 @@ public class SimpleTests {
             System.out.println(graph.bfs(System.out::println));
 
             new GraphBaseTest(this).testGraph(
-                    "{0-1=[(R1=1), (R2=2)]};{0-3=[(R3=4)]};{1-2=[(R4=3)]};"
+                    "{0-1=[(R1:1), (R2:2)]};{0-3=[(R3:4)]};{1-2=[(R4:3)]};"
             );
 
             System.out.println();
@@ -277,7 +288,7 @@ public class SimpleTests {
             edgeCount += 1;
 
             new GraphBaseTest(this).testGraph(
-                    "{0-2=[(R1=1)]};"
+                    "{0-2=[(R1:1)]};"
             );
             System.out.println();
         }
@@ -299,7 +310,7 @@ public class SimpleTests {
             edgeCount += 5;
 
             new GraphBaseTest(this).testGraph(
-                    "{0-1=[(R1=1), (R2=2), (R3=3), (R4=4)]};{0-2=[(R5=5)]};"
+                    "{0-1=[(R1:1), (R2:2), (R3:3), (R4:4)]};{0-2=[(R5:5)]};"
             );
             System.out.println();
         }

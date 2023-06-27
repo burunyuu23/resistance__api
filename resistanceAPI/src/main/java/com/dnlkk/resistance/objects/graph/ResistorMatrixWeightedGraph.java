@@ -1,5 +1,6 @@
 package com.dnlkk.resistance.objects.graph;
 
+import com.dnlkk.resistance.objects.resistor.Resistor;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -13,9 +14,9 @@ import java.util.stream.IntStream;
 
 @Getter
 @ToString
-public class ResistorMatrixWeightedGraph<Resistor> implements WeightedGraph<Resistor>{
+public class ResistorMatrixWeightedGraph implements WeightedGraph<Resistor>{
 
-    private List<List<List<Resistor>>> adjacencyMatrix;
+    private final List<List<List<Resistor>>> adjacencyMatrix;
     private int vertexCount;
     private int edgeCount;
 
@@ -79,6 +80,8 @@ public class ResistorMatrixWeightedGraph<Resistor> implements WeightedGraph<Resi
         this.adjacencyMatrix.get(v1).get(v2).add(resistor);
         this.adjacencyMatrix.get(v2).get(v1).add(resistor);
         this.edgeCount++;
+
+        renameResistors();
     }
 
     @Override
@@ -86,6 +89,8 @@ public class ResistorMatrixWeightedGraph<Resistor> implements WeightedGraph<Resi
         this.adjacencyMatrix.get(v1).get(v2).remove(resistor);
         this.adjacencyMatrix.get(v2).get(v1).remove(resistor);
         this.edgeCount--;
+
+        renameResistors();
     }
 
     @Override
@@ -94,6 +99,8 @@ public class ResistorMatrixWeightedGraph<Resistor> implements WeightedGraph<Resi
         this.adjacencyMatrix.get(v1).get(v2).clear();
         this.adjacencyMatrix.get(v2).get(v1).clear();
         this.edgeCount -= size;
+
+        renameResistors();
     }
     /**
      * [[],[],[]]    [ [],  [], [z],  `[]`]
@@ -112,6 +119,8 @@ public class ResistorMatrixWeightedGraph<Resistor> implements WeightedGraph<Resi
         }
         this.vertexCount--;
         this.edgeCount -= size;
+
+        renameResistors();
     }
 
     @Override
@@ -160,6 +169,16 @@ public class ResistorMatrixWeightedGraph<Resistor> implements WeightedGraph<Resi
                 return Iterable.super.spliterator();
             }
         };
+    }
+
+    public void renameResistors() {
+        int counter = 1;
+        for (WeightedEdge<Resistor> v : this.adjacencyWithWeights(1)) {
+            for (Resistor resistor : v.getWeight()) {
+                resistor.setName(String.format("R%d", counter));
+                counter++;
+            }
+        }
     }
 
     @Override

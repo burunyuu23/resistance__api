@@ -1,8 +1,14 @@
 package com.dnlkk.resistance.objects.resistor;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
-public record Resistor(String name, Integer resistance) {
+@Data
+@AllArgsConstructor
+public class Resistor {
+    private String name;
+    private int resistance;
+
     @Override
     public String toString() {
         return String.format("(%s=%d)", name, resistance);

@@ -1,11 +1,8 @@
 package com.dnlkk.resistance.objects.graph;
 
 import com.dnlkk.resistance.exceptions.VertexNotFoundException;
-import com.dnlkk.resistance.objects.resistor.Resistor;
-import jakarta.persistence.criteria.CriteriaBuilder;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.StreamSupport;
 
 public interface WeightedGraph<T> extends Graph<T>{

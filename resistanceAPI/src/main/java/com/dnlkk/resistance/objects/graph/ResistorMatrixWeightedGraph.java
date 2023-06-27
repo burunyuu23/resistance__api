@@ -1,16 +1,12 @@
 package com.dnlkk.resistance.objects.graph;
 
 import com.dnlkk.resistance.exceptions.ResistorNotFoundException;
-import com.dnlkk.resistance.exceptions.VertexNotFoundException;
 import com.dnlkk.resistance.objects.resistor.Resistor;
 import com.dnlkk.resistance.util.RegexUtil;
 import lombok.Getter;
-import lombok.ToString;
 
 import java.util.*;
 import java.util.function.Consumer;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 

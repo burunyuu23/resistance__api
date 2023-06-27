@@ -1,10 +1,7 @@
 package com.dnlkk.resistance;
 
 import com.dnlkk.resistance.exceptions.VertexNotFoundException;
-import com.dnlkk.resistance.objects.graph.Graph;
-import com.dnlkk.resistance.objects.graph.WeightedEdge;
-import com.dnlkk.resistance.objects.graph.WeightedGraph;
-import com.dnlkk.resistance.objects.graph.ResistorMatrixWeightedGraph;
+import com.dnlkk.resistance.objects.graph.*;
 import com.dnlkk.resistance.objects.resistor.Resistor;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -61,7 +58,7 @@ public class SimpleTests {
     class GraphCreateTest {
         private int vertexCount = 3;
         private int edgeCount = 0;
-        private WeightedGraph<Resistor> graph = new ResistorMatrixWeightedGraph(vertexCount);
+        private ResistorWeightedGraph graph = new ResistorMatrixWeightedGraph(vertexCount);
 
         @Test
         void testGraphCreationThreeVertexToString(){
@@ -179,6 +176,45 @@ public class SimpleTests {
                 ans = graph.getWeight(1, 2);
                 System.out.println(ans);
                 assertEquals("[(R2=3)]", ans.toString());
+            } catch (VertexNotFoundException e) {
+                System.err.println(e.getMessage());
+            } catch (Exception e) {
+                System.err.println("Something went wrong!");
+            }
+
+            new GraphBaseTest(this).testGraph(
+                    "{0-1=[(R1:2)]};"
+            );
+            System.out.println();
+        }
+
+        @Test
+        void testGraphRemoveEdgeByResistorName(){
+            System.out.println(new Object() {}
+                    .getClass()
+                    .getEnclosingMethod()
+                    .getName());
+            recreateGraph(3);
+
+            graph.addEdge(0,1, new Resistor("R1", 1));
+            graph.addEdge(0,1, new Resistor("R2", 2));
+            graph.addEdge(1,2, new Resistor("R3", 3));
+            edgeCount+=3;
+
+            graph.removeEdge(0, 1, "R1");
+            edgeCount--;
+
+            var ans = graph.getWeight(0, 1);
+            System.out.println(ans);
+            assertEquals("[(R1:2)]", graph.getWeight(0, 1).toString());
+
+            graph.removeEdge(1,2,"R2");
+            edgeCount--;
+
+            try {
+                ans = graph.getWeight(1, 2);
+                System.out.println(ans);
+                assertEquals("[(R2:3)]", ans.toString());
             } catch (VertexNotFoundException e) {
                 System.err.println(e.getMessage());
             } catch (Exception e) {

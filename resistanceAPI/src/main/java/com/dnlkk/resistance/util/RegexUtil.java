@@ -1,6 +1,5 @@
 package com.dnlkk.resistance.util;
 
-import com.dnlkk.resistance.objects.graph.Graph;
 import com.dnlkk.resistance.objects.graph.ResistorMatrixWeightedGraph;
 import com.dnlkk.resistance.objects.resistor.Resistor;
 

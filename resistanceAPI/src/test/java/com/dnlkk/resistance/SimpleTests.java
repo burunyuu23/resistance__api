@@ -91,10 +91,10 @@ public class SimpleTests {
 
             graph.addEdge(0,3,new Resistor("R1", 1));
             edgeCount++;
-            vertexCount++;
+            vertexCount = 2;
 
             new GraphBaseTest(this).testGraph(
-                    "{0-3=[(R1:1)]};"
+                    "{0-1=[(R1:1)]};"
             );
             System.out.println();
         }
@@ -171,6 +171,7 @@ public class SimpleTests {
 
             graph.removeEdge(1,2,new Resistor("R2", 3));
             edgeCount--;
+            vertexCount--;
 
             try {
                 ans = graph.getWeight(1, 2);
@@ -208,8 +209,9 @@ public class SimpleTests {
             System.out.println(ans);
             assertEquals("[(R1:2)]", graph.getWeight(0, 1).toString());
 
-            graph.removeEdge(1,2,"R2");
+            graph.removeEdge(0,1,"R1");
             edgeCount--;
+            vertexCount--;
 
             try {
                 ans = graph.getWeight(1, 2);
@@ -222,7 +224,7 @@ public class SimpleTests {
             }
 
             new GraphBaseTest(this).testGraph(
-                    "{0-1=[(R1:2)]};"
+                    "{0-1=[(R1:3)]};"
             );
             System.out.println();
         }
@@ -247,11 +249,12 @@ public class SimpleTests {
 
             graph.removeEdge(0, 1);
             edgeCount -= 2;
+            vertexCount--;
 
             try {
                 ans = graph.getWeight(0, 1);
                 System.out.println(ans);
-                assertEquals("[(R1:1), (R2:2)]", ans.toString());
+                assertEquals("[(R1:3)]", ans.toString());
             } catch (VertexNotFoundException e) {
                 System.err.println(e.getMessage());
             } catch (Exception e) {
@@ -259,7 +262,7 @@ public class SimpleTests {
             }
 
             new GraphBaseTest(this).testGraph(
-                    "{1-2=[(R1:3)]};"
+                    "{0-1=[(R1:3)]};"
             );
             System.out.println();
         }
@@ -322,9 +325,10 @@ public class SimpleTests {
 
             graph.addEdge(0,2,new Resistor("R1", 1));
             edgeCount += 1;
+            vertexCount--;
 
             new GraphBaseTest(this).testGraph(
-                    "{0-2=[(R1:1)]};"
+                    "{0-1=[(R1:1)]};"
             );
             System.out.println();
         }

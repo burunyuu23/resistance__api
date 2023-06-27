@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Getter
-public class ResistorMatrixWeightedGraph implements ResistorWeightedGraph{
+public class ResistorMatrixWeightedGraph implements ResistorWeightedGraph {
 
     private final List<List<List<Resistor>>> adjacencyMatrix;
     private int vertexCount;
@@ -63,8 +63,7 @@ public class ResistorMatrixWeightedGraph implements ResistorWeightedGraph{
      * [[],[],[]]    [ [],  [], [z],  []]
      * [[],[],[]] => [ [],  [], [], [w]]
      * [[],[],[]]    [[z],  [], [],  []]
-     *               [ [], [w], [],  []]
-     *
+     * [ [], [w], [],  []]
      */
     @Override
     public void addEdge(int v1, int v2, Resistor resistor) {
@@ -83,7 +82,9 @@ public class ResistorMatrixWeightedGraph implements ResistorWeightedGraph{
         this.adjacencyMatrix.get(v2).get(v1).add(resistor);
         this.edgeCount++;
 
-        renameResistors();
+        System.out.println(this);
+
+        rename();
     }
 
     @Override
@@ -92,7 +93,7 @@ public class ResistorMatrixWeightedGraph implements ResistorWeightedGraph{
         this.adjacencyMatrix.get(v2).get(v1).remove(resistor);
         this.edgeCount--;
 
-        renameResistors();
+        rename();
     }
 
 
@@ -113,27 +114,37 @@ public class ResistorMatrixWeightedGraph implements ResistorWeightedGraph{
         this.adjacencyMatrix.get(v2).get(v1).clear();
         this.edgeCount -= size;
 
-        renameResistors();
+        rename();
     }
+
     /**
      * [[],[],[]]    [  [],  [], [z],  ~[]~]
      * [[],[],[]] => [  [],  [],  [], ~[w]~]
      * [[],[],[]]    [ [z],  [],  [], ~[]~]
-     *               ~[ [], [w],  [],  []]~
-     *
+     * ~[ [], [w],  [],  []]~
      */
     @Override
     public void removeVertex(int v) {
-            this.adjacencyMatrix.remove(v);
-            int size = 0;
-            for (int i = 0; i < this.vertexCount() - 1; i++) {
-                if (i != v)
-                    size += this.adjacencyMatrix.get(i).remove(v).size();
-            }
-            this.vertexCount--;
-            this.edgeCount -= size;
+        System.out.println(v);
+        System.out.println(this.adjacencyMatrix);
+        this.adjacencyMatrix.remove(v);
+        int size = 0;
+        for (int i = 0; i < this.vertexCount() - 1; i++) {
+            size += this.adjacencyMatrix.get(i).remove(v).size();
+        }
+        this.vertexCount--;
+        this.edgeCount -= size;
 
-            renameResistors();
+        rename();
+    }
+
+    private void rename() {
+        renameResistors();
+        System.out.println(this);
+
+        renameVertex();
+        System.out.println(this);
+        System.out.println(this.adjacencyMatrix);
     }
 
     @Override
@@ -193,6 +204,19 @@ public class ResistorMatrixWeightedGraph implements ResistorWeightedGraph{
             resistor.setName(String.format("R%d", ref.counter));
             ref.counter++;
         });
+    }
+
+    public void renameVertex() {
+        for (int i = 0; i < vertexCount(); i++) {
+            boolean isEmpty = true;
+            for (int j = 0; j < vertexCount(); j++) {
+                isEmpty = this.adjacencyMatrix.get(i).get(j).isEmpty();
+                if (!isEmpty)
+                    break;
+            }
+            if (isEmpty)
+                this.removeVertex(i);
+        }
     }
 
     @Override

@@ -52,7 +52,7 @@ public class ResistanceService {
         int to = addResistorDTO.getTo();
         int resistance = addResistorDTO.getResistance();
 
-        graph.addEdge(from, to, new Resistor("", resistance));
+        graph.addEdge(from, to, new Resistor("R", resistance));
 
         return new GraphDTO(graph.toString());
     }

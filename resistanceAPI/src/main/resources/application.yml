@@ -1,3 +1,13 @@
 server:
     servlet:
         context-path: /api
+
+spring:
+    datasource:
+        driver-class-name: org.postgresql.Driver
+        url: jdbc:postgresql://localhost:5432/danilkk_db
+        username: danilkk
+        password: 123
+    jpa:
+        database: postgresql
+        database-platform: org.hibernate.dialect.PostgreSQLDialect

@@ -6,6 +6,7 @@ import com.dnlkk.resistance.objects.graph.ResistorMatrixWeightedGraph;
 import com.dnlkk.resistance.objects.resistor.Resistor;
 import com.dnlkk.resistance.services.ResistanceService;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,10 +17,8 @@ public class ResistanceController {
 
     private final ResistanceService resistanceService;
 
-    @PostMapping("/vertex")
+    @DeleteMapping("/vertex")
     public ResponseEntity deleteVertex(@RequestBody DeleteVertexDTO deleteVertexDTO) {
-        System.out.println(deleteVertexDTO);
-        System.out.println(deleteVertexDTO.getGraph());
-        return ResponseEntity.ok("");
+        return ResponseEntity.ok(resistanceService.deleteVertex(deleteVertexDTO));
     }
 }

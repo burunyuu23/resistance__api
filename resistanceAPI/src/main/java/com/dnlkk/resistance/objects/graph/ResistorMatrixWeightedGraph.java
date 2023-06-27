@@ -107,24 +107,26 @@ public class ResistorMatrixWeightedGraph implements WeightedGraph<Resistor>{
         renameResistors();
     }
     /**
-     * [[],[],[]]    [ [],  [], [z],  `[]`]
-     * [[],[],[]] => [ [],  [], [],  `[w]`]
-     * [[],[],[]]    [[z],  [], [],   `[]`]
-     *               `[ [], [w], [],   []]`
+     * [[],[],[]]    [  [],  [], [z],  ~[]~]
+     * [[],[],[]] => [  [],  [],  [], ~[w]~]
+     * [[],[],[]]    [ [z],  [],  [], ~[]~]
+     *               ~[ [], [w],  [],  []]~
      *
      */
     @Override
     public void removeVertex(int v) {
-        this.adjacencyMatrix.remove(v);
-        int size = 0;
-        for (int i = 0; i < this.vertexCount() - 1; i++) {
-            if (i != v)
-                size += this.adjacencyMatrix.get(i).remove(v).size();
-        }
-        this.vertexCount--;
-        this.edgeCount -= size;
+        if (v < this.vertexCount) {
+            this.adjacencyMatrix.remove(v);
+            int size = 0;
+            for (int i = 0; i < this.vertexCount() - 1; i++) {
+                if (i != v)
+                    size += this.adjacencyMatrix.get(i).remove(v).size();
+            }
+            this.vertexCount--;
+            this.edgeCount -= size;
 
-        renameResistors();
+            renameResistors();
+        }
     }
 
     @Override

@@ -59,7 +59,7 @@ public class SimpleTests {
     class GraphCreateTest {
         private int vertexCount = 3;
         private int edgeCount = 0;
-        private WeightedGraph<Resistor> graph = new ResistorMatrixWeightedGraph<>(vertexCount);
+        private WeightedGraph<Resistor> graph = new ResistorMatrixWeightedGraph(vertexCount);
 
         @Test
         void testGraphCreationThreeVertexToString(){
@@ -159,15 +159,15 @@ public class SimpleTests {
 
             ans = graph.getWeight(0, 1);
             System.out.println(ans);
-            assertEquals("[(R2=2)]", graph.getWeight(0, 1).toString());
+            assertEquals("[(R1=2)]", graph.getWeight(0, 1).toString());
 
-            graph.removeEdge(1,2,new Resistor("R3", 3));
+            graph.removeEdge(1,2,new Resistor("R2", 3));
             edgeCount--;
 
             try {
                 ans = graph.getWeight(1, 2);
                 System.out.println(ans);
-                assertEquals("[(R3=3)]", ans.toString());
+                assertEquals("[(R2=3)]", ans.toString());
             } catch (VertexNotFoundException e) {
                 System.err.println(e.getMessage());
             } catch (Exception e) {
@@ -175,7 +175,7 @@ public class SimpleTests {
             }
 
             new GraphBaseTest(this).testGraph(
-                    "[[[], [(R2=2)], []], [[(R2=2)], [], []], [[], [], []]]"
+                    "[[[], [(R1=2)], []], [[(R1=2)], [], []], [[], [], []]]"
             );
             System.out.println();
         }
@@ -211,7 +211,7 @@ public class SimpleTests {
             }
 
             new GraphBaseTest(this).testGraph(
-                    "[[[], [], []], [[], [], [(R3=3)]], [[], [(R3=3)], []]]"
+                    "[[[], [], []], [[], [], [(R1=3)]], [[], [(R1=3)], []]]"
             );
             System.out.println();
         }
@@ -289,7 +289,7 @@ public class SimpleTests {
         private void recreateGraph(int vertexCount) {
             this.vertexCount = vertexCount;
             this.edgeCount = 0;
-            this.graph = new ResistorMatrixWeightedGraph<>(vertexCount);
+            this.graph = new ResistorMatrixWeightedGraph(vertexCount);
         }
     }
 }

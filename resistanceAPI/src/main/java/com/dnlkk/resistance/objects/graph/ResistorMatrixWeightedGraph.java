@@ -1,11 +1,14 @@
 package com.dnlkk.resistance.objects.graph;
 
 import com.dnlkk.resistance.objects.resistor.Resistor;
+import com.dnlkk.resistance.util.RegexUtil;
 import lombok.Getter;
 import lombok.ToString;
 
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -15,6 +18,11 @@ public class ResistorMatrixWeightedGraph implements WeightedGraph<Resistor>{
     private final List<List<List<Resistor>>> adjacencyMatrix;
     private int vertexCount;
     private int edgeCount;
+
+    public ResistorMatrixWeightedGraph(String graph) {
+        this(1);
+        RegexUtil.regexGraph(graph, this);
+    }
 
     public ResistorMatrixWeightedGraph(int vertexCount) {
         this.vertexCount = vertexCount;
@@ -62,7 +70,7 @@ public class ResistorMatrixWeightedGraph implements WeightedGraph<Resistor>{
      */
     @Override
     public void addEdge(int v1, int v2, Resistor resistor) {
-        if (v2 >= this.vertexCount()) {
+        while (v2 >= this.vertexCount()) {
             this.vertexCount++;
 
             List<List<Resistor>> listLVL1 = new ArrayList<>();

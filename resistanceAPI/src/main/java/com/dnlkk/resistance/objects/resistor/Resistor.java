@@ -11,6 +11,6 @@ public class Resistor {
 
     @Override
     public String toString() {
-        return String.format("(%s=%d)", name, resistance);
+        return String.format("(%s:%d)", name, resistance);
     }
 }

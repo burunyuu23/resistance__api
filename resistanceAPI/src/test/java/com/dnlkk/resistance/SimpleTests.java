@@ -1,5 +1,6 @@
 package com.dnlkk.resistance;
 
+import com.dnlkk.resistance.exceptions.VertexNotFoundException;
 import com.dnlkk.resistance.objects.graph.WeightedEdge;
 import com.dnlkk.resistance.objects.graph.WeightedGraph;
 import com.dnlkk.resistance.objects.graph.ResistorMatrixWeightedGraph;
@@ -62,7 +63,10 @@ public class SimpleTests {
 
         @Test
         void testGraphCreationThreeVertexToString(){
-            System.out.println("testGraphCreationThreeVertexToString");
+            System.out.println(new Object() {}
+                    .getClass()
+                    .getEnclosingMethod()
+                    .getName());
             new GraphBaseTest(this).testGraph(
                     "[[[], [], []], [[], [], []], [[], [], []]]"
             );
@@ -71,7 +75,10 @@ public class SimpleTests {
 
         @Test
         void testGraphAddNewEdge(){
-            System.out.println("testGraphAddNewEdge");
+            System.out.println(new Object() {}
+                    .getClass()
+                    .getEnclosingMethod()
+                    .getName());
             recreateGraph(3);
 
             graph.addEdge(0,3,new Resistor("R1", 1));
@@ -106,8 +113,11 @@ public class SimpleTests {
         }
 
         @Test
-        void testGraphGetWeight(){
-            System.out.println("testGraphGetWeight");
+        void testGraphGetResistor(){
+            System.out.println(new Object() {}
+                    .getClass()
+                    .getEnclosingMethod()
+                    .getName());
             recreateGraph(3);
 
             graph.addEdge(0,1,new Resistor("R1", 1));
@@ -124,8 +134,94 @@ public class SimpleTests {
         }
 
         @Test
+        void testGraphRemoveEdgeResistor(){
+            System.out.println(new Object() {}
+                    .getClass()
+                    .getEnclosingMethod()
+                    .getName());
+            recreateGraph(3);
+
+            graph.addEdge(0,1, new Resistor("R1", 1));
+            graph.addEdge(0,1, new Resistor("R2", 2));
+            graph.addEdge(1,2, new Resistor("R3", 3));
+            edgeCount+=3;
+
+            var ans = graph.getWeight(1, 2);
+            System.out.println(ans);
+            assertEquals("[(R3=3)]", ans.toString());
+
+            ans = graph.getWeight(0, 1);
+            System.out.println(ans);
+            assertEquals("[(R1=1), (R2=2)]", graph.getWeight(0, 1).toString());
+
+            graph.removeEdge(0, 1, new Resistor("R1", 1));
+            edgeCount--;
+
+            ans = graph.getWeight(0, 1);
+            System.out.println(ans);
+            assertEquals("[(R2=2)]", graph.getWeight(0, 1).toString());
+
+            graph.removeEdge(1,2,new Resistor("R3", 3));
+            edgeCount--;
+
+            try {
+                ans = graph.getWeight(1, 2);
+                System.out.println(ans);
+                assertEquals("[(R3=3)]", ans.toString());
+            } catch (VertexNotFoundException e) {
+                System.err.println(e.getMessage());
+            } catch (Exception e) {
+                System.err.println("Something went wrong!");
+            }
+
+            new GraphBaseTest(this).testGraph(
+                    "[[[], [(R2=2)], []], [[(R2=2)], [], []], [[], [], []]]"
+            );
+            System.out.println();
+        }
+
+        @Test
+        void testGraphRemoveEdge(){
+            System.out.println(new Object() {}
+                    .getClass()
+                    .getEnclosingMethod()
+                    .getName());
+            recreateGraph(3);
+
+            graph.addEdge(0,1, new Resistor("R1", 1));
+            graph.addEdge(0,1, new Resistor("R2", 2));
+            graph.addEdge(1,2, new Resistor("R3", 3));
+            edgeCount+=3;
+
+            var ans = graph.getWeight(0, 1);
+            System.out.println(ans);
+            assertEquals("[(R1=1), (R2=2)]", ans.toString());
+
+            graph.removeEdge(0, 1);
+            edgeCount -= 2;
+
+            try {
+                ans = graph.getWeight(0, 1);
+                System.out.println(ans);
+                assertEquals("[(R1=1), (R2=2)]", ans.toString());
+            } catch (VertexNotFoundException e) {
+                System.err.println(e.getMessage());
+            } catch (Exception e) {
+                System.err.println("Something went wrong!");
+            }
+
+            new GraphBaseTest(this).testGraph(
+                    "[[[], [], []], [[], [], [(R3=3)]], [[], [(R3=3)], []]]"
+            );
+            System.out.println();
+        }
+
+        @Test
         void testGraphIterator() {
-            System.out.println("testGraphIterator");
+            System.out.println(new Object() {}
+                    .getClass()
+                    .getEnclosingMethod()
+                    .getName());
             recreateGraph(3);
 
             graph.addEdge(0,1,new Resistor("R1", 1));
@@ -153,7 +249,10 @@ public class SimpleTests {
 
         @Test
         void testGraphAddEdge(){
-            System.out.println("testGraphAddEdge");
+            System.out.println(new Object() {}
+                    .getClass()
+                    .getEnclosingMethod()
+                    .getName());
             recreateGraph(3);
 
             graph.addEdge(0,2,new Resistor("R1", 1));
@@ -168,7 +267,10 @@ public class SimpleTests {
 
         @Test
         void testGraphAddSomeEdges(){
-            System.out.println("testGraphAddSomeEdges");
+            System.out.println(new Object() {}
+                    .getClass()
+                    .getEnclosingMethod()
+                    .getName());
             recreateGraph(3);
 
             graph.addEdge(0,1, new Resistor("R1", 1));

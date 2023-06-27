@@ -4,16 +4,12 @@ import com.dnlkk.resistance.objects.resistor.Resistor;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Spliterator;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Getter
-@ToString
 public class ResistorMatrixWeightedGraph implements WeightedGraph<Resistor>{
 
     private final List<List<List<Resistor>>> adjacencyMatrix;
@@ -172,17 +168,63 @@ public class ResistorMatrixWeightedGraph implements WeightedGraph<Resistor>{
     }
 
     public void renameResistors() {
-        int counter = 1;
-        for (WeightedEdge<Resistor> v : this.adjacencyWithWeights(1)) {
-            for (Resistor resistor : v.getWeight()) {
-                resistor.setName(String.format("R%d", counter));
-                counter++;
-            }
-        }
+        var ref = new Object() {
+            int counter = 1;
+        };
+
+        bfs(resistor -> {
+            resistor.setName(String.format("R%d", ref.counter));
+            ref.counter++;
+        });
     }
 
     @Override
     public List<Resistor> getWeight(int v1, int v2) {
         return WeightedGraph.super.getWeight(v1, v2);
+    }
+
+    @Override
+    public String bfs(Consumer<Resistor> visitor) {
+        StringBuilder stringBuilder = new StringBuilder();
+        int from = 0;
+
+        boolean[] visited = new boolean[this.vertexCount()];
+        Queue<Integer> queue = new LinkedList<>();
+
+        for (int range = from; range < this.vertexCount(); range++) {
+            queue.add(range);
+        }
+
+        visited[from] = true;
+        while (queue.size() > 0) {
+            Integer curr = queue.remove();
+            for (WeightedEdge<Resistor> weResistor : this.adjacencyWithWeights(curr)) {
+                if (!visited[weResistor.to()]) {
+                    queue.add(weResistor.to());
+
+                    if (visitor != null)
+                        for (Resistor resistor : weResistor.weight()) {
+                            visitor.accept(resistor);
+                        }
+
+                    // Я слишком туп, чтобы придумать как одновременно делать консюмера в одном случае с резистором,
+                    // а в другом с двумя элементами: кур и V
+                    // А возможно еще и слишком ленив
+                    // ヽ(๑˘︶˘๑)ノ https://i.imgur.com/XtnTpp9.jpg
+                    // Извините за картинку, самому стыдно
+                    stringBuilder.append(String.format("{%d-%d=%s};", curr, weResistor.to(), weResistor.weight()));
+
+                    visited[weResistor.to()] = true;
+                }
+                visited[curr] = true;
+            }
+        }
+
+        return stringBuilder.toString();
+    }
+
+    @Override
+    public String toString() {
+        return bfs(null);
     }
 }

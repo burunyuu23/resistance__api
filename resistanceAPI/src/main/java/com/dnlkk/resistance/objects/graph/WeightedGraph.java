@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.StreamSupport;
 
-public interface WeightedGraph<T> extends Graph{
+public interface WeightedGraph<T> extends Graph<T>{
 
     void addEdge(int v1, int v2, T weight);
     void removeEdge(int v1, int v2, T weight);

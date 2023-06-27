@@ -1,9 +1,10 @@
 package com.dnlkk.resistance.objects.graph;
 
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.StreamSupport;
 
-public interface Graph {
+public interface Graph<T> {
     int vertexCount();
     int edgeCount();
 
@@ -18,4 +19,6 @@ public interface Graph {
         return StreamSupport.stream(adjacency(v1).spliterator(), false)
                 .anyMatch(v -> v == v2);
     }
+
+    String bfs(Consumer<T> visitor);
 }

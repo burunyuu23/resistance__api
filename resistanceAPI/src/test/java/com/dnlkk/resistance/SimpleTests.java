@@ -98,6 +98,37 @@ public class SimpleTests {
             );
             System.out.println();
         }
+
+        @Test
+        void testGraphRemoveSequenceEdge(){
+            System.out.println(new Object() {}
+                    .getClass()
+                    .getEnclosingMethod()
+                    .getName());
+            recreateGraph(3);
+
+            graph.addEdge(0,1, new Resistor("R1", 1));
+            graph.addEdge(0,1, new Resistor("R2", 2));
+            graph.addEdge(0,1, new Resistor("R3", 3));
+            graph.addEdge(1,0, new Resistor("R4", 4));
+            graph.addEdge(0,2, new Resistor("R5", 5));
+            graph.addEdge(0,3, new Resistor("R6", 6));
+            graph.addEdge(0,3, new Resistor("R7", 7));
+            graph.addEdge(3,0, new Resistor("R8", 8));
+            graph.addEdge(1,2, new Resistor("R9", 9));
+            edgeCount += 9;
+            vertexCount = 4;
+
+            graph.removeEdge(0, 3);
+            vertexCount--;
+            edgeCount -= 3;
+
+            new GraphBaseTest(this).testGraph(
+                    "{0-1=[(R1:1), (R2:2), (R3:3), (R4:4)]};{0-2=[(R5:5)]};{1-2=[(R6:9)]};"
+            );
+            System.out.println();
+        }
+
         @Test
         void testGraphAddSomeNewEdges(){
             System.out.println("testGraphAddSomeNewEdges");

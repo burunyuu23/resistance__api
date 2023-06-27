@@ -30,7 +30,11 @@ public class ResistanceService {
         int from = deleteEdgeDTO.getFrom();
         int to = deleteEdgeDTO.getTo();
 
-        graph.removeEdge(from, to);
+        try {
+            graph.removeEdge(from, to);
+        } catch (Exception e) {
+            throw new VertexNotFoundException();
+        }
 
         return new GraphDTO(graph.toString());
     }

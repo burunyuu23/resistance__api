@@ -82,8 +82,6 @@ public class ResistorMatrixWeightedGraph implements ResistorWeightedGraph {
         this.adjacencyMatrix.get(v2).get(v1).add(resistor);
         this.edgeCount++;
 
-        System.out.println(this);
-
         rename();
     }
 
@@ -125,8 +123,6 @@ public class ResistorMatrixWeightedGraph implements ResistorWeightedGraph {
      */
     @Override
     public void removeVertex(int v) {
-        System.out.println(v);
-        System.out.println(this.adjacencyMatrix);
         this.adjacencyMatrix.remove(v);
         int size = 0;
         for (int i = 0; i < this.vertexCount() - 1; i++) {
@@ -140,11 +136,7 @@ public class ResistorMatrixWeightedGraph implements ResistorWeightedGraph {
 
     private void rename() {
         renameResistors();
-        System.out.println(this);
-
         renameVertex();
-        System.out.println(this);
-        System.out.println(this.adjacencyMatrix);
     }
 
     @Override
@@ -229,18 +221,18 @@ public class ResistorMatrixWeightedGraph implements ResistorWeightedGraph {
         StringBuilder stringBuilder = new StringBuilder();
         int from = 0;
 
-        boolean[] visited = new boolean[this.vertexCount()];
+        boolean[][] visited = new boolean[this.vertexCount()][this.vertexCount()];
         Queue<Integer> queue = new LinkedList<>();
 
         for (int range = from; range < this.vertexCount(); range++) {
             queue.add(range);
         }
 
-        visited[from] = true;
+        visited[from][from] = true;
         while (queue.size() > 0) {
             Integer curr = queue.remove();
             for (WeightedEdge<Resistor> weResistor : this.adjacencyWithWeights(curr)) {
-                if (!visited[weResistor.to()]) {
+                if (!visited[weResistor.to()][curr]) {
                     queue.add(weResistor.to());
 
                     if (visitor != null)
@@ -255,9 +247,9 @@ public class ResistorMatrixWeightedGraph implements ResistorWeightedGraph {
                     // Извините за картинку, самому стыдно
                     stringBuilder.append(String.format("{%d-%d=%s};", curr, weResistor.to(), weResistor.weight()));
 
-                    visited[weResistor.to()] = true;
+                    visited[weResistor.to()][curr] = true;
+                    visited[curr][weResistor.to()] = true;
                 }
-                visited[curr] = true;
             }
         }
 

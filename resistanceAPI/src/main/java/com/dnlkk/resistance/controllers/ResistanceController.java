@@ -29,7 +29,11 @@ public class ResistanceController {
 
     @DeleteMapping("/edge")
     public ResponseEntity deleteEdge(@RequestBody DeleteEdgeDTO deleteEdgeDTO) {
-        return ResponseEntity.ok(resistanceService.deleteEdge(deleteEdgeDTO));
+        try {
+            return ResponseEntity.ok(resistanceService.deleteEdge(deleteEdgeDTO));
+        } catch (VertexNotFoundException e) {
+            return ResponseEntity.status(e.getStatus()).body(e.getMessage());
+        }
     }
 
     @DeleteMapping("/edge/resistor")

@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  database:
+    image: "postgres:10.0"
+    ports:
+      - "5432:5432"
+    env_file:
+      - ./db/database.env
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "postgres" ]
+      interval: 5s
+      retries: 5
+    restart: on-failure

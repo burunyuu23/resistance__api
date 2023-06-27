@@ -36,7 +36,7 @@ public class SimpleTests {
         }
 
         void testGraphToString(String graphInfo){
-            String info = matchedGraphInfo(graphCreateTest.getGraph().toString());
+            String info = graphCreateTest.getGraph().toString();
             System.out.println(info);
             assertEquals(graphInfo, info);
         }
@@ -68,7 +68,7 @@ public class SimpleTests {
                     .getEnclosingMethod()
                     .getName());
             new GraphBaseTest(this).testGraph(
-                    "[[[], [], []], [[], [], []], [[], [], []]]"
+                    ""
             );
             System.out.println();
         }
@@ -86,7 +86,7 @@ public class SimpleTests {
             vertexCount++;
 
             new GraphBaseTest(this).testGraph(
-                    "[[[], [], [], [(R1=1)]], [[], [], [], []], [[], [], [], []], [[(R1=1)], [], [], []]]"
+                    "{0-3=[(R1=1)]};"
             );
             System.out.println();
         }
@@ -107,7 +107,7 @@ public class SimpleTests {
             vertexCount++;
 
             new GraphBaseTest(this).testGraph(
-                    "[[[], [(R1=1), (R2=2), (R3=3), (R4=4)], [(R5=5)], [(R6=6), (R7=7), (R8=8)]], [[(R1=1), (R2=2), (R3=3), (R4=4)], [], [], []], [[(R5=5)], [], [], []], [[(R6=6), (R7=7), (R8=8)], [], [], []]]"
+                    "{0-1=[(R1=1), (R2=2), (R3=3), (R4=4)]};{0-2=[(R5=5)]};{0-3=[(R6=6), (R7=7), (R8=8)]};"
             );
             System.out.println();
         }
@@ -128,7 +128,7 @@ public class SimpleTests {
             assertEquals("[(R1=1), (R2=2)]", graph.getWeight(0, 1).toString());
 
             new GraphBaseTest(this).testGraph(
-                    "[[[], [(R1=1), (R2=2)], []], [[(R1=1), (R2=2)], [], [(R3=3)]], [[], [(R3=3)], []]]"
+                    "{0-1=[(R1=1), (R2=2)]};{1-2=[(R3=3)]};"
             );
             System.out.println();
         }
@@ -175,7 +175,7 @@ public class SimpleTests {
             }
 
             new GraphBaseTest(this).testGraph(
-                    "[[[], [(R1=2)], []], [[(R1=2)], [], []], [[], [], []]]"
+                    "{0-1=[(R1=2)]};"
             );
             System.out.println();
         }
@@ -192,6 +192,7 @@ public class SimpleTests {
             graph.addEdge(0,1, new Resistor("R2", 2));
             graph.addEdge(1,2, new Resistor("R3", 3));
             edgeCount+=3;
+
 
             var ans = graph.getWeight(0, 1);
             System.out.println(ans);
@@ -211,7 +212,7 @@ public class SimpleTests {
             }
 
             new GraphBaseTest(this).testGraph(
-                    "[[[], [], []], [[], [], [(R1=3)]], [[], [(R1=3)], []]]"
+                    "{1-2=[(R1=3)]};"
             );
             System.out.println();
         }
@@ -229,21 +230,38 @@ public class SimpleTests {
             graph.addEdge(1,2,new Resistor("R3", 3));
             edgeCount+=3;
 
-            StringBuilder stringBuilder = new StringBuilder();
+            String graphInfo = graph.toString();
+            System.out.println(graphInfo);
 
-            for (WeightedEdge<Resistor> v :graph.adjacencyWithWeights(1)) {
-                stringBuilder
-                        .append(v.to())
-                        .append(v.weight())
-                        .append(";");
-            }
-            System.out.println(stringBuilder);
-
-            assertEquals("0[(R1=1), (R2=2)];2[(R3=3)];", stringBuilder.toString());
+            assertEquals("{0-1=[(R1=1), (R2=2)]};{1-2=[(R3=3)]};", graphInfo);
 
             new GraphBaseTest(this).testGraph(
-                    "[[[], [(R1=1), (R2=2)], []], [[(R1=1), (R2=2)], [], [(R3=3)]], [[], [(R3=3)], []]]"
+                    "{0-1=[(R1=1), (R2=2)]};{1-2=[(R3=3)]};"
             );
+            System.out.println();
+        }
+
+        @Test
+        void testGraphBfs(){
+            System.out.println(new Object() {}
+                    .getClass()
+                    .getEnclosingMethod()
+                    .getName());
+            recreateGraph(3);
+
+            graph.addEdge(0,1,new Resistor("R1", 1));
+            graph.addEdge(0,1,new Resistor("R2", 2));
+            graph.addEdge(1,2,new Resistor("R3", 3));
+            graph.addEdge(0,3,new Resistor("R4", 4));
+            vertexCount++;
+            edgeCount+=4;
+
+            System.out.println(graph.bfs(System.out::println));
+
+            new GraphBaseTest(this).testGraph(
+                    "{0-1=[(R1=1), (R2=2)]};{0-3=[(R3=4)]};{1-2=[(R4=3)]};"
+            );
+
             System.out.println();
         }
 
@@ -259,7 +277,7 @@ public class SimpleTests {
             edgeCount += 1;
 
             new GraphBaseTest(this).testGraph(
-                    "[[[], [], [(R1=1)]], [[], [], []], [[(R1=1)], [], []]]"
+                    "{0-2=[(R1=1)]};"
             );
             System.out.println();
         }
@@ -281,7 +299,7 @@ public class SimpleTests {
             edgeCount += 5;
 
             new GraphBaseTest(this).testGraph(
-                    "[[[], [(R1=1), (R2=2), (R3=3), (R4=4)], [(R5=5)]], [[(R1=1), (R2=2), (R3=3), (R4=4)], [], []], [[(R5=5)], [], []]]"
+                    "{0-1=[(R1=1), (R2=2), (R3=3), (R4=4)]};{0-2=[(R5=5)]};"
             );
             System.out.println();
         }

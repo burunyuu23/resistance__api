@@ -82,18 +82,36 @@ public class ResistorMatrixWeightedGraph<Resistor> implements WeightedGraph<Resi
     }
 
     @Override
-    public void removeEdge(int v1, int v2, Resistor weight) {
-
+    public void removeEdge(int v1, int v2, Resistor resistor) {
+        this.adjacencyMatrix.get(v1).get(v2).remove(resistor);
+        this.adjacencyMatrix.get(v2).get(v1).remove(resistor);
+        this.edgeCount--;
     }
 
     @Override
     public void removeEdge(int v1, int v2) {
-
+        int size = this.adjacencyMatrix.get(v1).get(v2).size();
+        this.adjacencyMatrix.get(v1).get(v2).clear();
+        this.adjacencyMatrix.get(v2).get(v1).clear();
+        this.edgeCount -= size;
     }
-
+    /**
+     * [[],[],[]]    [ [],  [], [z],  `[]`]
+     * [[],[],[]] => [ [],  [], [],  `[w]`]
+     * [[],[],[]]    [[z],  [], [],   `[]`]
+     *               `[ [], [w], [],   []]`
+     *
+     */
     @Override
     public void removeVertex(int v) {
-
+        this.adjacencyMatrix.remove(v);
+        int size = 0;
+        for (int i = 0; i < this.vertexCount() - 1; i++) {
+            if (i != v)
+                size += this.adjacencyMatrix.get(i).remove(v).size();
+        }
+        this.vertexCount--;
+        this.edgeCount -= size;
     }
 
     @Override

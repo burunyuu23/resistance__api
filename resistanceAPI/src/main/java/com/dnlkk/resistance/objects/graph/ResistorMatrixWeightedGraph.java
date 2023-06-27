@@ -1,5 +1,7 @@
 package com.dnlkk.resistance.objects.graph;
 
+import com.dnlkk.resistance.exceptions.ResistorNotFoundException;
+import com.dnlkk.resistance.exceptions.VertexNotFoundException;
 import com.dnlkk.resistance.objects.resistor.Resistor;
 import com.dnlkk.resistance.util.RegexUtil;
 import lombok.Getter;
@@ -13,7 +15,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Getter
-public class ResistorMatrixWeightedGraph implements WeightedGraph<Resistor>{
+public class ResistorMatrixWeightedGraph implements ResistorWeightedGraph{
 
     private final List<List<List<Resistor>>> adjacencyMatrix;
     private int vertexCount;
@@ -53,7 +55,7 @@ public class ResistorMatrixWeightedGraph implements WeightedGraph<Resistor>{
 
     @Override
     public boolean isAdj(int v1, int v2) {
-        return WeightedGraph.super.isAdj(v1, v2);
+        return ResistorWeightedGraph.super.isAdj(v1, v2);
     }
 
 
@@ -97,6 +99,17 @@ public class ResistorMatrixWeightedGraph implements WeightedGraph<Resistor>{
         renameResistors();
     }
 
+
+    @Override
+    public void removeEdge(int v1, int v2, String resistorName) {
+        Resistor resistor = this.adjacencyMatrix.get(v1).get(v2).stream()
+                .filter(r -> r.getName().equals(resistorName))
+                .findFirst()
+                .orElseThrow(ResistorNotFoundException::new);
+
+        this.removeEdge(v1, v2, resistor);
+    }
+
     @Override
     public void removeEdge(int v1, int v2) {
         int size = this.adjacencyMatrix.get(v1).get(v2).size();
@@ -115,7 +128,6 @@ public class ResistorMatrixWeightedGraph implements WeightedGraph<Resistor>{
      */
     @Override
     public void removeVertex(int v) {
-        if (v < this.vertexCount) {
             this.adjacencyMatrix.remove(v);
             int size = 0;
             for (int i = 0; i < this.vertexCount() - 1; i++) {
@@ -126,7 +138,6 @@ public class ResistorMatrixWeightedGraph implements WeightedGraph<Resistor>{
             this.edgeCount -= size;
 
             renameResistors();
-        }
     }
 
     @Override
@@ -190,7 +201,7 @@ public class ResistorMatrixWeightedGraph implements WeightedGraph<Resistor>{
 
     @Override
     public List<Resistor> getWeight(int v1, int v2) {
-        return WeightedGraph.super.getWeight(v1, v2);
+        return ResistorWeightedGraph.super.getWeight(v1, v2);
     }
 
     @Override
@@ -237,4 +248,5 @@ public class ResistorMatrixWeightedGraph implements WeightedGraph<Resistor>{
     public String toString() {
         return bfs(null);
     }
+
 }

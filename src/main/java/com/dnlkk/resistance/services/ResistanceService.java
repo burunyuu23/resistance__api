@@ -3,6 +3,7 @@ package com.dnlkk.resistance.services;
 import com.dnlkk.resistance.dto.requests.*;
 import com.dnlkk.resistance.dto.responses.CountTotalResistanceResponseDTO;
 import com.dnlkk.resistance.dto.responses.GraphResponseDTO;
+import com.dnlkk.resistance.exceptions.errors_404.ResistorNotFoundException;
 import com.dnlkk.resistance.exceptions.errors_404.VertexNotFoundException;
 import com.dnlkk.resistance.objects.graph.ResistorWeightedGraph;
 import com.dnlkk.resistance.objects.graph.WeightedGraph;
@@ -52,7 +53,13 @@ public class ResistanceService {
         int to = deleteEdgeResistorRequestDTO.getTo();
         String resistorName = deleteEdgeResistorRequestDTO.getResistorName();
 
-        graph.removeEdge(from, to, resistorName);
+        try {
+            graph.removeEdge(from, to, resistorName);
+        } catch (ResistorNotFoundException e) {
+            throw new ResistorNotFoundException();
+        } catch (Exception e) {
+            throw new VertexNotFoundException();
+        }
 
         return modelMapper.map(graph, GraphResponseDTO.class);
     }
@@ -63,12 +70,23 @@ public class ResistanceService {
         int to = addResistorRequestDTO.getTo();
         int resistance = addResistorRequestDTO.getResistance();
 
-        graph.addEdge(from, to, new Resistor("R", resistance));
+        try {
+            graph.addEdge(from, to, new Resistor("R", resistance));
+        } catch (Exception e) {
+            throw new VertexNotFoundException();
+        }
 
         return modelMapper.map(graph, GraphResponseDTO.class);
     }
 
     public CountTotalResistanceResponseDTO countTotalResistance(CountTotalResistanceRequestDTO countTotalResistanceRequestDTO) {
+        ResistorWeightedGraph graph = countTotalResistanceRequestDTO.getGraph();
+        int from = countTotalResistanceRequestDTO.getFrom();
+        int to = countTotalResistanceRequestDTO.getTo();
+        double eds = countTotalResistanceRequestDTO.getEds();
+
+
+        // Отослать double[][] на matrixAPI
 
         return modelMapper.map(null, CountTotalResistanceResponseDTO.class);
     }

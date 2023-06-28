@@ -1,4 +1,4 @@
-package com.dnlkk.resistance.dto;
+package com.dnlkk.resistance.dto.responses;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;

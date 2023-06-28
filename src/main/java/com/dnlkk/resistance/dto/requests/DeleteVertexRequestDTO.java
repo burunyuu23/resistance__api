@@ -1,12 +1,14 @@
-package com.dnlkk.resistance.dto;
+package com.dnlkk.resistance.dto.requests;
 
 import com.dnlkk.resistance.objects.graph.ResistorMatrixWeightedGraph;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-@Schema(description = "Request on delete edge")
-public class DeleteEdgeRequestDTO {
+@AllArgsConstructor
+@Schema(description = "Request on delete vertex")
+public class DeleteVertexRequestDTO {
     @Schema(
             description = "Graph from string",
             implementation = String.class,
@@ -14,11 +16,9 @@ public class DeleteEdgeRequestDTO {
     )
     private ResistorMatrixWeightedGraph graph;
 
-    @Schema(description = "The starting vertex of the edge to be deleted",
-            example = "0")
-    private Integer from;
-
-    @Schema(description = "The ending vertex of the edge to be deleted",
-            example = "1")
-    private Integer to;
+    @Schema(
+            description = "The vertex of the graph to be deleted",
+            example = "1"
+    )
+    private Integer vertex;
 }

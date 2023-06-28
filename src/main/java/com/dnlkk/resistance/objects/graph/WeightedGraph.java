@@ -1,6 +1,6 @@
 package com.dnlkk.resistance.objects.graph;
 
-import com.dnlkk.resistance.exceptions.VertexNotFoundException;
+import com.dnlkk.resistance.exceptions.errors_404.VertexNotFoundException;
 
 import java.util.List;
 import java.util.stream.StreamSupport;

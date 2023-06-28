@@ -1,6 +1,6 @@
 package com.dnlkk.resistance;
 
-import com.dnlkk.resistance.exceptions.VertexNotFoundException;
+import com.dnlkk.resistance.exceptions.errors_404.VertexNotFoundException;
 import com.dnlkk.resistance.objects.graph.*;
 import com.dnlkk.resistance.objects.resistor.Resistor;
 import lombok.AllArgsConstructor;

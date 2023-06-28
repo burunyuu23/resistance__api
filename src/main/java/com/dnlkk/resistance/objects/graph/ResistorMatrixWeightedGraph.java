@@ -1,6 +1,6 @@
 package com.dnlkk.resistance.objects.graph;
 
-import com.dnlkk.resistance.exceptions.ResistorNotFoundException;
+import com.dnlkk.resistance.exceptions.errors_404.ResistorNotFoundException;
 import com.dnlkk.resistance.objects.resistor.Resistor;
 import com.dnlkk.resistance.util.RegexUtil;
 import lombok.Getter;

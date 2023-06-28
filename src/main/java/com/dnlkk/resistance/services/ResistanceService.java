@@ -1,7 +1,9 @@
 package com.dnlkk.resistance.services;
 
-import com.dnlkk.resistance.dto.*;
-import com.dnlkk.resistance.exceptions.VertexNotFoundException;
+import com.dnlkk.resistance.dto.requests.*;
+import com.dnlkk.resistance.dto.responses.CountTotalResistanceResponseDTO;
+import com.dnlkk.resistance.dto.responses.GraphResponseDTO;
+import com.dnlkk.resistance.exceptions.errors_404.VertexNotFoundException;
 import com.dnlkk.resistance.objects.graph.ResistorWeightedGraph;
 import com.dnlkk.resistance.objects.graph.WeightedGraph;
 import com.dnlkk.resistance.objects.resistor.Resistor;
@@ -64,5 +66,10 @@ public class ResistanceService {
         graph.addEdge(from, to, new Resistor("R", resistance));
 
         return modelMapper.map(graph, GraphResponseDTO.class);
+    }
+
+    public CountTotalResistanceResponseDTO countTotalResistance(CountTotalResistanceRequestDTO countTotalResistanceRequestDTO) {
+
+        return modelMapper.map(null, CountTotalResistanceResponseDTO.class);
     }
 }

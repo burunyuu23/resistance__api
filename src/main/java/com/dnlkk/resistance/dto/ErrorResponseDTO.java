@@ -1,6 +1,5 @@
 package com.dnlkk.resistance.dto;
 
-import com.dnlkk.resistance.exceptions.AppException;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.springframework.http.HttpStatus;

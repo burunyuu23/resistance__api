@@ -1,7 +1,6 @@
 package com.dnlkk.resistance.controllers;
 
 import com.dnlkk.resistance.dto.*;
-import com.dnlkk.resistance.exceptions.AppException;
 import com.dnlkk.resistance.services.ResistanceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

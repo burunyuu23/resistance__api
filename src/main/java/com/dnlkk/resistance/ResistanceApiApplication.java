@@ -1,6 +1,8 @@
 package com.dnlkk.resistance;
 
+import com.dnlkk.resistance.dto.ErrorResponseDTO;
 import com.dnlkk.resistance.dto.GraphResponseDTO;
+import com.dnlkk.resistance.exceptions.AppException;
 import com.dnlkk.resistance.objects.graph.ResistorMatrixWeightedGraph;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
@@ -20,10 +22,13 @@ public class ResistanceApiApplication {
 		ModelMapper modelMapper = new ModelMapper();
 
 		// Создание типового отображения между классами ResistorMatrixWeightedGraph и GraphResponseDTO
-		TypeMap<ResistorMatrixWeightedGraph, GraphResponseDTO> typeMap = modelMapper.createTypeMap(ResistorMatrixWeightedGraph.class, GraphResponseDTO.class);
-
+		TypeMap<ResistorMatrixWeightedGraph, GraphResponseDTO> typeMapGraph = modelMapper.createTypeMap(ResistorMatrixWeightedGraph.class, GraphResponseDTO.class);
 		// Настройка маппинга поля graph
-		typeMap.addMapping(ResistorMatrixWeightedGraph::toString, GraphResponseDTO::setGraph);
+		typeMapGraph.addMapping(ResistorMatrixWeightedGraph::toString, GraphResponseDTO::setGraph);
+
+		TypeMap<AppException, ErrorResponseDTO> typeMapException = modelMapper.createTypeMap(AppException.class, ErrorResponseDTO.class);
+		typeMapException.addMapping(AppException::getMessage, ErrorResponseDTO::setMessage);
+		typeMapException.addMapping(AppException::getStatus, ErrorResponseDTO::setStatus);
 
 		return modelMapper;
 	}

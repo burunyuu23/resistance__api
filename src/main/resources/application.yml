@@ -12,3 +12,9 @@ spring:
     jpa:
         database: postgresql
         database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+springdoc:
+    swagger-ui:
+        path: /swagger-ui.html
+    api-docs:
+        path: /api-docs

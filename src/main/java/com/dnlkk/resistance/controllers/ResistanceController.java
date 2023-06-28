@@ -1,9 +1,9 @@
 package com.dnlkk.resistance.controllers;
 
-import com.dnlkk.resistance.dto.AddResistorDTO;
-import com.dnlkk.resistance.dto.DeleteEdgeDTO;
-import com.dnlkk.resistance.dto.DeleteEdgeResistorDTO;
-import com.dnlkk.resistance.dto.DeleteVertexDTO;
+import com.dnlkk.resistance.dto.AddResistorRequestDTO;
+import com.dnlkk.resistance.dto.DeleteEdgeRequestDTO;
+import com.dnlkk.resistance.dto.DeleteEdgeResistorRequestDTO;
+import com.dnlkk.resistance.dto.DeleteVertexRequestDTO;
 import com.dnlkk.resistance.exceptions.ResistorNotFoundException;
 import com.dnlkk.resistance.exceptions.VertexNotFoundException;
 import com.dnlkk.resistance.services.ResistanceService;
@@ -19,34 +19,34 @@ public class ResistanceController {
     private final ResistanceService resistanceService;
 
     @DeleteMapping("/vertex")
-    public ResponseEntity deleteVertex(@RequestBody DeleteVertexDTO deleteVertexDTO) {
+    public ResponseEntity deleteVertex(@RequestBody DeleteVertexRequestDTO deleteVertexRequestDTO) {
         try {
-            return ResponseEntity.ok(resistanceService.deleteVertex(deleteVertexDTO));
+            return ResponseEntity.ok(resistanceService.deleteVertex(deleteVertexRequestDTO));
         } catch (VertexNotFoundException e) {
             return ResponseEntity.status(e.getStatus()).body(e.getMessage());
         }
     }
 
     @DeleteMapping("/edge")
-    public ResponseEntity deleteEdge(@RequestBody DeleteEdgeDTO deleteEdgeDTO) {
+    public ResponseEntity deleteEdge(@RequestBody DeleteEdgeRequestDTO deleteEdgeRequestDTO) {
         try {
-            return ResponseEntity.ok(resistanceService.deleteEdge(deleteEdgeDTO));
+            return ResponseEntity.ok(resistanceService.deleteEdge(deleteEdgeRequestDTO));
         } catch (VertexNotFoundException e) {
             return ResponseEntity.status(e.getStatus()).body(e.getMessage());
         }
     }
 
     @DeleteMapping("/edge/resistor")
-    public ResponseEntity deleteEdgeResistor(@RequestBody DeleteEdgeResistorDTO deleteEdgeResistorDTO) {
+    public ResponseEntity deleteEdgeResistor(@RequestBody DeleteEdgeResistorRequestDTO deleteEdgeResistorRequestDTO) {
         try {
-            return ResponseEntity.ok(resistanceService.deleteEdgeResistor(deleteEdgeResistorDTO));
+            return ResponseEntity.ok(resistanceService.deleteEdgeResistor(deleteEdgeResistorRequestDTO));
         } catch (ResistorNotFoundException e) {
             return ResponseEntity.status(e.getStatus()).body(e.getMessage());
         }
     }
 
     @PatchMapping("/edge/resistor")
-    public ResponseEntity addEdgeResistor(@RequestBody AddResistorDTO addResistorDTO) {
-        return ResponseEntity.ok(resistanceService.addEdgeResistor(addResistorDTO));
+    public ResponseEntity addEdgeResistor(@RequestBody AddResistorRequestDTO addResistorRequestDTO) {
+        return ResponseEntity.ok(resistanceService.addEdgeResistor(addResistorRequestDTO));
     }
 }

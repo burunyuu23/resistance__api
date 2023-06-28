@@ -5,16 +5,18 @@ import com.dnlkk.resistance.exceptions.VertexNotFoundException;
 import com.dnlkk.resistance.objects.graph.ResistorWeightedGraph;
 import com.dnlkk.resistance.objects.graph.WeightedGraph;
 import com.dnlkk.resistance.objects.resistor.Resistor;
-import lombok.AllArgsConstructor;
+import lombok.Data;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 @Service
-@AllArgsConstructor
+@Data
 public class ResistanceService {
+    private final ModelMapper modelMapper;
 
-    public GraphDTO deleteVertex(DeleteVertexDTO deleteVertexDTO) {
-        WeightedGraph<Resistor> graph = deleteVertexDTO.getGraph();
-        int vertex = deleteVertexDTO.getVertex();
+    public GraphResponseDTO deleteVertex(DeleteVertexRequestDTO deleteVertexRequestDTO) {
+        WeightedGraph<Resistor> graph = deleteVertexRequestDTO.getGraph();
+        int vertex = deleteVertexRequestDTO.getVertex();
 
         try {
             graph.removeVertex(vertex);
@@ -22,13 +24,13 @@ public class ResistanceService {
             throw new VertexNotFoundException();
         }
 
-        return new GraphDTO(graph.toString());
+        return modelMapper.map(graph, GraphResponseDTO.class);
     }
 
-    public GraphDTO deleteEdge(DeleteEdgeDTO deleteEdgeDTO) {
-        WeightedGraph<Resistor> graph = deleteEdgeDTO.getGraph();
-        int from = deleteEdgeDTO.getFrom();
-        int to = deleteEdgeDTO.getTo();
+    public GraphResponseDTO deleteEdge(DeleteEdgeRequestDTO deleteEdgeRequestDTO) {
+        WeightedGraph<Resistor> graph = deleteEdgeRequestDTO.getGraph();
+        int from = deleteEdgeRequestDTO.getFrom();
+        int to = deleteEdgeRequestDTO.getTo();
 
         try {
             graph.removeEdge(from, to);
@@ -36,28 +38,31 @@ public class ResistanceService {
             throw new VertexNotFoundException();
         }
 
-        return new GraphDTO(graph.toString());
+        System.out.println(graph);
+        System.out.println(modelMapper.map(graph, GraphResponseDTO.class));
+
+        return modelMapper.map(graph, GraphResponseDTO.class);
     }
 
-    public GraphDTO deleteEdgeResistor(DeleteEdgeResistorDTO deleteEdgeResistorDTO) {
-        ResistorWeightedGraph graph = deleteEdgeResistorDTO.getGraph();
-        int from = deleteEdgeResistorDTO.getFrom();
-        int to = deleteEdgeResistorDTO.getTo();
-        String resistorName = deleteEdgeResistorDTO.getResistorName();
+    public GraphResponseDTO deleteEdgeResistor(DeleteEdgeResistorRequestDTO deleteEdgeResistorRequestDTO) {
+        ResistorWeightedGraph graph = deleteEdgeResistorRequestDTO.getGraph();
+        int from = deleteEdgeResistorRequestDTO.getFrom();
+        int to = deleteEdgeResistorRequestDTO.getTo();
+        String resistorName = deleteEdgeResistorRequestDTO.getResistorName();
 
         graph.removeEdge(from, to, resistorName);
 
-        return new GraphDTO(graph.toString());
+        return modelMapper.map(graph, GraphResponseDTO.class);
     }
 
-    public GraphDTO addEdgeResistor(AddResistorDTO addResistorDTO) {
-        ResistorWeightedGraph graph = addResistorDTO.getGraph();
-        int from = addResistorDTO.getFrom();
-        int to = addResistorDTO.getTo();
-        int resistance = addResistorDTO.getResistance();
+    public GraphResponseDTO addEdgeResistor(AddResistorRequestDTO addResistorRequestDTO) {
+        ResistorWeightedGraph graph = addResistorRequestDTO.getGraph();
+        int from = addResistorRequestDTO.getFrom();
+        int to = addResistorRequestDTO.getTo();
+        int resistance = addResistorRequestDTO.getResistance();
 
         graph.addEdge(from, to, new Resistor("R", resistance));
 
-        return new GraphDTO(graph.toString());
+        return modelMapper.map(graph, GraphResponseDTO.class);
     }
 }

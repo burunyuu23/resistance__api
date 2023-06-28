@@ -1,12 +1,12 @@
 package com.dnlkk.resistance.dto;
 
 import com.dnlkk.resistance.objects.graph.ResistorMatrixWeightedGraph;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-@AllArgsConstructor
-public class DeleteVertexDTO {
+public class AddResistorRequestDTO {
     private ResistorMatrixWeightedGraph graph;
-    private Integer vertex;
+    private Integer from;
+    private Integer to;
+    private Integer resistance;
 }

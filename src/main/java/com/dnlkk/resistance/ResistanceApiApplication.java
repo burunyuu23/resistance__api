@@ -28,8 +28,10 @@ public class ResistanceApiApplication {
 		typeMapGraph.addMapping(ResistorMatrixWeightedGraph::toString, GraphResponseDTO::setGraph);
 
 		TypeMap<AppException, ErrorResponseDTO> typeMapException = modelMapper.createTypeMap(AppException.class, ErrorResponseDTO.class);
-		typeMapException.addMapping(AppException::getMessage, ErrorResponseDTO::setMessage);
-		typeMapException.addMapping(AppException::getStatus, ErrorResponseDTO::setStatus);
+		typeMapException.addMappings(mapper -> {
+			mapper.map(AppException::getMessage, ErrorResponseDTO::setMessage);
+			mapper.map(AppException::getStatus, ErrorResponseDTO::setStatus);
+		});
 
 		return modelMapper;
 	}

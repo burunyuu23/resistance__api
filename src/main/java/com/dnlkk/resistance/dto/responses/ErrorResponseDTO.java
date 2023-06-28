@@ -11,6 +11,7 @@ public class ErrorResponseDTO {
             description = "Error message",
             example = "Something not found")
     private String message;
+
     @Schema(
             description = "Error status",
             example = "404 NOT_FOUND")

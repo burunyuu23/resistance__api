@@ -21,7 +21,7 @@ public class CountTotalResistanceRequestDTO {
     private Integer to;
 
     @Schema(description = "The Electromotive Force",
-            example = "1")
-    private Integer eds;
+            example = "1.0")
+    private Double eds;
 
 }

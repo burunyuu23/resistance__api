@@ -8,9 +8,6 @@ import lombok.Getter;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SimpleTests {
@@ -37,18 +34,6 @@ public class SimpleTests {
             String info = graphCreateTest.getGraph().toString();
             System.out.println(info);
             assertEquals(graphInfo, info);
-        }
-
-        private String matchedGraphInfo(String input) {
-            String result = "";
-
-            Pattern regex = Pattern.compile("\\[(...)*]*]");
-            Matcher matcher = regex.matcher(input);
-
-            if (matcher.find()) {
-                result = matcher.group(); // Получение сматченной строки
-            }
-            return result;
         }
     }
 
@@ -86,7 +71,7 @@ public class SimpleTests {
                     .getClass()
                     .getEnclosingMethod()
                     .getName());
-            recreateGraph(3);
+            recreateGraph(2);
 
             graph.addEdge(0,3,new Resistor("R1", 1));
             edgeCount++;

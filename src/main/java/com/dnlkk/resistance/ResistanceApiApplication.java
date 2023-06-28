@@ -26,6 +26,6 @@ public class ResistanceApiApplication {
 		typeMap.addMapping(ResistorMatrixWeightedGraph::toString, GraphResponseDTO::setGraph);
 
 		return modelMapper;
-	};
+	}
 
 }

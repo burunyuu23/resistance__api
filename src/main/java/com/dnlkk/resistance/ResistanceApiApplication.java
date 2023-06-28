@@ -1,9 +1,10 @@
 package com.dnlkk.resistance;
 
-import com.dnlkk.resistance.dto.ErrorResponseDTO;
-import com.dnlkk.resistance.dto.GraphResponseDTO;
+import com.dnlkk.resistance.dto.responses.ErrorResponseDTO;
+import com.dnlkk.resistance.dto.responses.GraphResponseDTO;
 import com.dnlkk.resistance.exceptions.AppException;
 import com.dnlkk.resistance.objects.graph.ResistorMatrixWeightedGraph;
+import com.google.gson.Gson;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 import org.springframework.boot.SpringApplication;
@@ -31,6 +32,11 @@ public class ResistanceApiApplication {
 		typeMapException.addMapping(AppException::getStatus, ErrorResponseDTO::setStatus);
 
 		return modelMapper;
+	}
+
+	@Bean
+	public Gson gson() {
+		return new Gson();
 	}
 
 }

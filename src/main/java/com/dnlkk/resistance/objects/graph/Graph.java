@@ -19,5 +19,19 @@ public interface Graph<T> {
                 .anyMatch(v -> v == v2);
     }
 
+    default boolean isReachable(int v1, int v2){
+        if (isAdj(v1, v2) || v1 == v2)
+            return true;
+        for (int v : adjacency(v1)) {
+            if (v > v1){
+                if (isAdj(v, v2))
+                    return true;
+                if (isReachable(v, v2))
+                    return true;
+            }
+        }
+        return false;
+    }
+
     String bfs(Consumer<T> visitor);
 }

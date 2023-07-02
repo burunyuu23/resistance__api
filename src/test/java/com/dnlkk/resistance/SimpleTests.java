@@ -8,7 +8,7 @@ import lombok.Getter;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class SimpleTests {
 
@@ -63,6 +63,31 @@ public class SimpleTests {
             Graph<Resistor> graph = new ResistorMatrixWeightedGraph(input);
 
             assertEquals(input, graph.toString());
+        }
+
+        @Test
+        void testGraphCreateFromString2() {
+            String input = "{0-2=[(R1:10)]};{1-2=[(R2:5), (R3:20)]};";
+
+            Graph<Resistor> graph = new ResistorMatrixWeightedGraph(input);
+
+            assertEquals("{0-1=[(R1:10)]};{1-2=[(R2:5), (R3:20)]};", graph.toString());
+        }
+
+        @Test
+        void testGraphReachable() {
+            String input = "{0-1=[(R1:10)]};{1-2=[(R2:5), (R3:20)]};{0-3=[(R1:5)]};";
+
+            Graph<Resistor> graph = new ResistorMatrixWeightedGraph(input);
+            System.out.println(graph);
+
+            System.out.println(graph.isReachable(2, 3));
+            System.out.println(graph.isReachable(1, 3));
+            System.out.println(graph.isReachable(0, 3));
+
+            assertFalse(graph.isReachable(2, 3));
+            assertFalse(graph.isReachable(1, 3));
+            assertTrue( graph.isReachable(0, 3));
         }
 
         @Test

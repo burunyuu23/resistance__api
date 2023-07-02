@@ -1,9 +1,11 @@
 package com.dnlkk.resistance.dto.responses;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 @Schema(description = "Response on count total resistance")
 public class CountTotalResistanceResponseDTO {
     @Schema(

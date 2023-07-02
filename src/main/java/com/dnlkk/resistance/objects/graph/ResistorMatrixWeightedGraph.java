@@ -46,7 +46,50 @@ public class ResistorMatrixWeightedGraph implements ResistorWeightedGraph {
 
     @Override
     public Iterable<Integer> adjacency(int v) {
-        return null;
+        return new Iterable<Integer>() {
+
+            Integer nextAdj = null;
+
+            @Override
+            public Iterator<Integer> iterator() {
+                for (int i = 0; i < vertexCount(); i++) {
+                    if (!adjacencyMatrix.get(v).get(i).isEmpty()) {
+                        nextAdj = i;
+                        break;
+                    }
+                }
+
+                return new Iterator<>() {
+                    @Override
+                    public boolean hasNext() {
+                        return nextAdj != null;
+                    }
+
+                    @Override
+                    public Integer next() {
+                        Integer result = nextAdj;
+                        nextAdj = null;
+                        for (int i = result + 1; i < vertexCount(); i++) {
+                            if (!adjacencyMatrix.get(v).get(i).isEmpty()) {
+                                nextAdj = i;
+                                break;
+                            }
+                        }
+                        return result;
+                    }
+                };
+            }
+
+            @Override
+            public void forEach(Consumer<? super Integer> action) {
+                Iterable.super.forEach(action);
+            }
+
+            @Override
+            public Spliterator<Integer> spliterator() {
+                return Iterable.super.spliterator();
+            }
+        };
     }
 
     @Override
